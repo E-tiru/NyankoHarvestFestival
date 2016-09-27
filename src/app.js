@@ -2,6 +2,10 @@ var itemsLayer;
 var cart;
 var xSpeed = 0; //カートの移動速度
 
+var point = 0;
+
+var hit = false;
+
 var touchOrigin; //タッチ開始したときに表示するスプライト
 var touching = false; //タッチしているかFlag
 var touchEnd; //タッチが終了したときに表示するスプライト
@@ -31,14 +35,31 @@ var game = cc.Layer.extend({
 
     //アイテムがおちてくるレイヤー
     itemsLayer = cc.Layer.create();
-    this.addChild(itemsLayer);
+    this.addChild(itemsLayer,1);
+
+    //籠
+    topLayer = cc.Layer.create();
+    this.addChild(topLayer);
+    basket = cc.Sprite.create(res.basket1_png);
+    topLayer.addChild(basket, 0);
+    basket.setPosition(280, 81);
+    this.schedule(this.addItem, 1);
+    //タッチイベントのリスナー追加
+    cc.eventManager.addListener(touchListener, this);
 
     //ショッピングカートを操作するレイヤー
     topLayer = cc.Layer.create();
     this.addChild(topLayer);
-    cart = cc.Sprite.create(res.cart_png);
+    if(hit)
+    {
+      cart = cc.Sprite.create(res.cat3_png);
+    }
+    else
+    {
+      cart = cc.Sprite.create(res.cat1_png);
+    }
     topLayer.addChild(cart, 0);
-    cart.setPosition(240, 24);
+    cart.setPosition(240, 60);
     this.schedule(this.addItem, 1);
     //タッチイベントのリスナー追加
     cc.eventManager.addListener(touchListener, this);
@@ -59,12 +80,15 @@ var game = cc.Layer.extend({
     //そのままだと値が大きすぎるので50で割る
     xSpeed = (touchEnd.getPosition().x - touchOrigin.getPosition().x) / 50;
       if (xSpeed > 0) {
+        basket.setFlippedX(true);
         cart.setFlippedX(true);
       }
       if (xSpeed < 0) {
+        basket.setFlippedX(false);
         cart.setFlippedX(false);
       }
       cart.setPosition(cart.getPosition().x + xSpeed, cart.getPosition().y);
+      basket.setPosition(basket.getPosition().x + xSpeed, basket.getPosition().y);
     }
   }
 
@@ -75,10 +99,10 @@ var Item = cc.Sprite.extend({
     this._super();
     //ランダムに爆弾と果物を生成する
     if (Math.random() < 0.5) {
-      this.initWithFile(res.bomb_png);
+      this.initWithFile(res.bug_png);
       this.isBomb = true;
     } else {
-      this.initWithFile(res.strawberry_png);
+      this.initWithFile(res.apple_png);
       this.isBomb = false;
     }
   },
@@ -95,14 +119,14 @@ var Item = cc.Sprite.extend({
   update: function(dt) {
     //果物の処理　座標をチェックしてカートの接近したら
     if (this.getPosition().y < 35 && this.getPosition().y > 30 &&
-      Math.abs(this.getPosition().x - cart.getPosition().x) < 10 && !this.isBomb) {
+      Math.abs(this.getPosition().x - cart.getPosition().x) < 50 && !this.isBomb) {
       gameLayer.removeItem(this);
       console.log("FRUIT");
     }
     //爆弾の処理　座標をチェックしてカートの接近したら　フルーツより爆弾に当たりやすくしている
-    if (this.getPosition().y < 35 && Math.abs(this.getPosition().x - cart.getPosition().x) < 25 &&
-      this.isBomb) {
+    if (this.getPosition().y < 35 && Math.abs(this.getPosition().x - cart.getPosition().x) < 25 && this.isBomb) {
       gameLayer.removeItem(this);
+      hit = true;
       console.log("BOMB");
     }
     //地面に落ちたアイテムは消去
