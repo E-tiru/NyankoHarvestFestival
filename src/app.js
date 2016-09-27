@@ -37,7 +37,7 @@ var game = cc.Layer.extend({
     itemsLayer = cc.Layer.create();
     this.addChild(itemsLayer,1);
 
-    //籠
+    //籠//
     topLayer = cc.Layer.create();
     this.addChild(topLayer);
     basket = cc.Sprite.create(res.basket1_png);
