@@ -42,7 +42,7 @@ var game = cc.Layer.extend({
     this.addChild(topLayer);
     basket = cc.Sprite.create(res.basket1_png);
     topLayer.addChild(basket, 0);
-    basket.setPosition(280, 81);
+    basket.setPosition(240, 55);
     this.schedule(this.addItem, 1);
     //タッチイベントのリスナー追加
     cc.eventManager.addListener(touchListener, this);
