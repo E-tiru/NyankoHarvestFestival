@@ -234,7 +234,6 @@ var Item = cc.Sprite.extend({
         }
       }
       score_label2.setString(score_2);
-      cat = cc.Sprite.create(res.cat3_png);
       console.log("BUG");
       // cat.runAction(rep);
     }
