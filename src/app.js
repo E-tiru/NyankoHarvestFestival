@@ -219,7 +219,11 @@ var Item = cc.Sprite.extend({
       console.log("FRUIT");
     }
     // 爆弾の処理 1
+<<<<<<< HEAD
     if (direction == 1 &&(this.getPosition().y < 88 && Math.abs(this.getPosition().x - (cat.getPosition().x + 30)) < 25 && this.isBomb)) {
+=======
+    if (direction == 1 &&(this.getPosition().y < 60 && Math.abs(this.getPosition().x - (cat.getPosition().x + 30)) < 25 && this.isBomb)) {
+>>>>>>> gh-pages
       gameLayer.removeItem(this);
       score_2--;
       if (score_2 < 0) {
@@ -234,7 +238,11 @@ var Item = cc.Sprite.extend({
         }
       }
       score_label2.setString(score_2);
+<<<<<<< HEAD
       cat = cc.Sprite.create(res.cat3_png);
+=======
+
+>>>>>>> gh-pages
       console.log("BUG");
       // cat.runAction(rep);
     }
