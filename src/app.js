@@ -238,11 +238,9 @@ var Item = cc.Sprite.extend({
         }
       }
       score_label2.setString(score_2);
-<<<<<<< HEAD
-      cat = cc.Sprite.create(res.cat3_png);
-=======
 
->>>>>>> gh-pages
+      cat = cc.Sprite.create(res.cat3_png);
+
       console.log("BUG");
       // cat.runAction(rep);
     }
